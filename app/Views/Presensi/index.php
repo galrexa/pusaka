@@ -220,7 +220,7 @@
     <div class="navbar header">
         <div class="container-fluid">
             <div class="header-left">
-                <div class="navbar-brand"><img src="<?=base_url('assets/img/FA-Logo-PCO_Horizontal-Emas-Putih.png')?>" alt="Brand Logo"></div>
+                <div class="navbar-brand"><img src="<?=base_url('assets/img/logo.png')?>" alt="Brand Logo"></div>
             </div>
             <img src="<?=session()->get('pegawai_foto')?>" height="50" class="rounded-circle">
         </div>

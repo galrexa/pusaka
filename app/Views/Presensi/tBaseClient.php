@@ -85,7 +85,7 @@
     <header class="navbar navbar-expand-lg navbar-dark sticky-top header">
         <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center" href="#">
-                <img src="<?=base_url('assets/img/FA-Logo-PCO_Horizontal-Emas-Putih.png')?>" alt="Brand Logo">
+                <img src="<?=base_url('assets/img/logo.png')?>" alt="Brand Logo">
             </a>
             <img src="<?=session()->get('pegawai_foto')?>" height="50" class="rounded-circle">
         </div>

@@ -22,10 +22,13 @@
 </head>
 <body>
 
-    <!-- NAVBAR HEADER -->
+    <!-- MODERN NAVBAR HEADER -->
     <?=view('tBaseHeader')?>
+    
+    <!-- Include Alert & Toast Helper -->
+    <?=view('tBaseAlert')?>
 
-    <!-- SIDEBAR -->
+    <!-- MODERN SIDEBAR -->
     <?php 
         if(session()->get('id_app')==2){
             echo view('Kepegawaian/tBaseSidebar');
@@ -33,52 +36,73 @@
         if(session()->get('id_app')==3){
             echo view('Presensi/tBaseSidebar');
         }
-        if(session()->get('id_app')==4){
-            echo view('Cuti/tBaseSidebar');
-        }
-        if(session()->get('id_app')==5){
-            echo view('Persuratan/tBaseSidebar');
-        }
+        // if(session()->get('id_app')==4){
+        //     echo view('Cuti/tBaseSidebar');
+        // }
+        // if(session()->get('id_app')==5){
+        //     echo view('Persuratan/tBaseSidebar');
+        // }
     ?>
 
-    <!-- Main Content -->
+    <!-- Main Content with Modern Styling -->
     <div class="main-content" id="mainContent">
         <?php if(session()->get('message')){?>
-            <!-- ALERT FLASHDATA -->
-            <div class="alert alert-info" id="flashdata_message">
-                <i class="fa fa-exclamation-circle"></i> <?=session()->get('message')?>
+            <!-- MODERN ALERT FLASHDATA -->
+            <div class="alert alert-info alert-dismissible fade show" id="flashdata_message" 
+                 style="border-radius: var(--radius-base); 
+                        box-shadow: var(--shadow-section); 
+                        border-left: 4px solid var(--info-color);
+                        background: linear-gradient(90deg, rgba(52, 152, 219, 0.1) 0%, rgba(255, 255, 255, 0.95) 100%);">
+                <i class="fa fa-exclamation-circle me-2"></i> 
+                <strong><?=session()->get('message')?></strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php }?>
+        
         <?php 
             // LOAD VIEW PAGE
             if(isset($page) && file_exists(APPPATH.'Views/'.$page.'.php'))
             {
                 echo view($page);
             }else{
-                echo '<h1 class="text-warning"><i class="fa fa-exclamation-circle"></i> Page not found</h1>';
+                echo '<div class="modern-card">
+                        <div class="modern-card-body text-center py-5">
+                            <i class="fa fa-exclamation-triangle" style="font-size: 4rem; color: var(--warning-color); margin-bottom: 1rem;"></i>
+                            <h3 class="text-warning">Page Not Found</h3>
+                            <p class="text-muted">The requested page could not be found.</p>
+                        </div>
+                      </div>';
             }
-            // echo '<div class="m-4 alert alert-warning">'.json_encode(['APPPATH'=>APPPATH, 'WRITEPATH'=>WRITEPATH, 'FCPATH'=>FCPATH]).'</div>';
-            // echo '<div class="alert alert-danger">'.json_encode($_SESSION).'</div>';
         ?>
     </div>
 
-    <div class="modal" tabindex="-1" id="modal1" data-bs-backdrop="static">
+    <!-- MODERN MODAL -->
+    <div class="modal fade" tabindex="-1" id="modal1" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header" id="modal1_header">
-                    <!-- <h5 class="modal-title">Modal title</h5> -->
-                    <button type="button" class="bg-danger btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content" style="border-radius: var(--radius-lg); border: none; overflow: hidden;">
+                <div class="modal-header" id="modal1_header" 
+                     style="background: var(--primary-gradient); 
+                            border: none; 
+                            padding: var(--space-xl);">
+                    <h5 class="modal-title" style="color: white; font-weight: var(--font-semibold); margin: 0;">
+                        <i class="fas fa-info-circle me-2"></i>Information
+                    </h5>
+                    <button type="button" 
+                            class="btn-close btn-close-white" 
+                            data-bs-dismiss="modal" 
+                            aria-label="Close"
+                            style="filter: brightness(0) invert(1);"></button>
                 </div>
-                <div class="modal-body" id="modal1_body">
+                <div class="modal-body" id="modal1_body" 
+                     style="padding: var(--space-2xl); 
+                            background: var(--background-white);
+                            font-size: var(--font-base);
+                            color: var(--text-medium);">
                     <p>Modal body text goes here.</p>
                 </div>
-                <!-- <div class="modal-footer" id="modal1_footer" style="display: none;"> -->
-                    <!-- <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal" title="Close"><i class="fas fa-times"></i></button> -->
-                <!-- </div> -->
             </div>
         </div>
     </div>
-
 
     <!-- SCRIPTS -->
     <script type="text/javascript">
@@ -112,22 +136,33 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('sidebarToggle').addEventListener('click', function() {
-                document.getElementById('sidebar').classList.toggle('active');
-            });
+            // Sidebar Toggle with Modern Animation
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            
+            if(sidebarToggle) {
+                sidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('sidebar-hidden');
+                    mainContent.classList.toggle('expanded');
+                });
+            }
+
             const currentLocation = window.location.pathname;
             const queryString = window.location.search;
             const currentLink = currentLocation + queryString;
             const urlParams = new URLSearchParams(queryString);
+            
             function setActiveMenu() {
                 const navLinks = document.querySelectorAll('.sidebar .sidebar-link');
                 navLinks.forEach(link => {
                     const linkPath = link.getAttribute('href');
                     link.classList.remove('active');
-                    // console.log('CurrentLink::',currentLink,' href::',linkPath)
+                    
                     if (linkPath && linkPath !== '/' && currentLink.includes(linkPath.replace('<?=base_url()?>', ''))) {
                         link.classList.add('active');
                         console.log('CurrentLink::',currentLink,' href::',linkPath,' (ACTIVE)')
+                        
                         const parent = link.closest('.submenu');
                         if (parent) {
                             parent.classList.add('show');
@@ -140,22 +175,27 @@
                     }
                 });
             }
+            
             const dropdownToggles = document.querySelectorAll('.sidebar-dropdown');
             dropdownToggles.forEach(function(toggle) {
                 toggle.addEventListener('click', function(e) {
                     e.preventDefault();
                     const dropdown = this.nextElementSibling;
                     const arrow = this.querySelector('.dropdown-arrow');
+                    
                     document.querySelectorAll('.submenu').forEach(function(item) {
                         if (item !== dropdown) {
                             item.classList.remove('show');
-                            item.previousElementSibling.querySelector('.dropdown-arrow').classList.remove('active');
-                            }
+                            const itemArrow = item.previousElementSibling.querySelector('.dropdown-arrow');
+                            if(itemArrow) itemArrow.classList.remove('active');
+                        }
                     });
-                    dropdown.classList.toggle('active');
+                    
+                    dropdown.classList.toggle('show');
                     arrow.classList.toggle('active');
                 });
             });
+            
             // Auto detect if this is the index page
             if (currentLink === '/' || currentLink.endsWith('index.php')) {
                 const dashboardLink = document.querySelector('a[href="/index.php"]');
@@ -165,14 +205,29 @@
             } else {
                 setActiveMenu();
             }
+
+            // Auto-hide flashdata after 5 seconds with fade effect
+            const flashdata = document.getElementById('flashdata_message');
+            if(flashdata) {
+                setTimeout(function() {
+                    flashdata.style.transition = 'opacity 0.5s ease';
+                    flashdata.style.opacity = '0';
+                    setTimeout(function() {
+                        flashdata.remove();
+                    }, 500);
+                }, 5000);
+            }
         })
 
-        // aktifasi tooltips
+        // Aktivasi tooltips dengan modern styling
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
+            return new bootstrap.Tooltip(tooltipTriggerEl, {
+                template: '<div class="tooltip" role="tooltip" style="border-radius: var(--radius-sm);"><div class="tooltip-arrow"></div><div class="tooltip-inner" style="border-radius: var(--radius-sm); padding: var(--space-sm) var(--space-md);"></div></div>'
+            })
         })
     </script>
+    
     <!-- JAVASCRIPT -->
     <?=view('tBaseJavascript')?>
 </body>

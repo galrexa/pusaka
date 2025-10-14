@@ -1,0 +1,12 @@
+CRITICAL - 2025-10-14 10:11:29 --> ErrorException: Undefined array key 1
+[Method: POST, Route: api/presensi/start]
+in APPPATH/Helpers/toolshelp_helper.php on line 837.
+ 1 APPPATH/Helpers/toolshelp_helper.php(837): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 APPPATH/Models/PresensiModel.php(1019): hours_tofloat()
+ 3 APPPATH/Controllers/Presensi.php(159): App\Models\PresensiModel->check_insert_pelanggaran_in_start()
+ 4 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Presensi->start()
+ 5 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 6 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 7 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 9 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()

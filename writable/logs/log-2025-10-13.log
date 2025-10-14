@@ -1,0 +1,194 @@
+CRITICAL - 2025-10-13 05:15:17 --> TypeError: cal_days_in_month(): Argument #2 ($month) must be of type int, string given
+[Method: POST, Route: api/presensi/bulanan]
+in APPPATH/Helpers/toolshelp_helper.php on line 793.
+ 1 APPPATH/Helpers/toolshelp_helper.php(793): cal_days_in_month()
+ 2 APPPATH/Models/PresensiModel.php(1246): list_tanggal_in_periode_bulan()
+ 3 APPPATH/Models/PresensiModel.php(740): App\Models\PresensiModel->jumlah_hari_kerja_dalam_bulan()
+ 4 APPPATH/Controllers/Presensi.php(581): App\Models\PresensiModel->presensi_final_in_bulanan()
+ 5 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Presensi->bulanan()
+ 6 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 7 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 8 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+10 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2025-10-13 08:44:08 --> TypeError: cal_days_in_month(): Argument #2 ($month) must be of type int, string given
+[Method: POST, Route: api/presensi/bulanan]
+in APPPATH/Helpers/toolshelp_helper.php on line 793.
+ 1 APPPATH/Helpers/toolshelp_helper.php(793): cal_days_in_month()
+ 2 APPPATH/Models/PresensiModel.php(1246): list_tanggal_in_periode_bulan()
+ 3 APPPATH/Models/PresensiModel.php(740): App\Models\PresensiModel->jumlah_hari_kerja_dalam_bulan()
+ 4 APPPATH/Controllers/Presensi.php(573): App\Models\PresensiModel->presensi_final_in_bulanan()
+ 5 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Presensi->bulanan()
+ 6 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 7 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 8 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+10 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ERROR - 2025-10-13 10:17:58 --> mysqli_sql_exception: Expression #1 of ORDER BY clause is not in SELECT list, references column 'pusaka.ms_tanggal_libur.tanggal' which is not in SELECT list; this is incompatible with DISTINCT in /var/www/pusaka/system/Database/MySQLi/Connection.php:327
+Stack trace:
+#0 /var/www/pusaka/system/Database/MySQLi/Connection.php(327): mysqli->query()
+#1 /var/www/pusaka/system/Database/BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute()
+#2 /var/www/pusaka/system/Database/BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery()
+#3 /var/www/pusaka/app/Models/PresensiModel.php(1291): CodeIgniter\Database\BaseConnection->query()
+#4 /var/www/pusaka/app/Controllers/Presensi.php(669): App\Models\PresensiModel->list_tahun_in_hari_libur()
+#5 /var/www/pusaka/system/CodeIgniter.php(933): App\Controllers\Presensi->hari_libur()
+#6 /var/www/pusaka/system/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+#7 /var/www/pusaka/system/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+#8 /var/www/pusaka/system/Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 /var/www/pusaka/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#10 /var/www/pusaka/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#11 {main}
+CRITICAL - 2025-10-13 10:17:58 --> CodeIgniter\Database\Exceptions\DatabaseException: Expression #1 of ORDER BY clause is not in SELECT list, references column 'pusaka.ms_tanggal_libur.tanggal' which is not in SELECT list; this is incompatible with DISTINCT
+[Method: GET, Route: presensi/hari_libur]
+in SYSTEMPATH/Database/BaseConnection.php on line 684.
+ 1 APPPATH/Models/PresensiModel.php(1291): CodeIgniter\Database\BaseConnection->query()
+ 2 APPPATH/Controllers/Presensi.php(669): App\Models\PresensiModel->list_tahun_in_hari_libur()
+ 3 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Presensi->hari_libur()
+ 4 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2025-10-13 10:17:58 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Expression #1 of ORDER BY clause is not in SELECT list, references column 'pusaka.ms_tanggal_libur.tanggal' which is not in SELECT list; this is incompatible with DISTINCT
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 332.
+ 1 SYSTEMPATH/Database/BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute()
+ 2 SYSTEMPATH/Database/BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 3 APPPATH/Models/PresensiModel.php(1291): CodeIgniter\Database\BaseConnection->query()
+ 4 APPPATH/Controllers/Presensi.php(669): App\Models\PresensiModel->list_tahun_in_hari_libur()
+ 5 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Presensi->hari_libur()
+ 6 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 7 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 8 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+10 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2025-10-13 10:17:58 --> [Caused by] mysqli_sql_exception: Expression #1 of ORDER BY clause is not in SELECT list, references column 'pusaka.ms_tanggal_libur.tanggal' which is not in SELECT list; this is incompatible with DISTINCT
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 327.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(327): mysqli->query()
+ 2 SYSTEMPATH/Database/BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute()
+ 3 SYSTEMPATH/Database/BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 4 APPPATH/Models/PresensiModel.php(1291): CodeIgniter\Database\BaseConnection->query()
+ 5 APPPATH/Controllers/Presensi.php(669): App\Models\PresensiModel->list_tahun_in_hari_libur()
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Presensi->hari_libur()
+ 7 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ERROR - 2025-10-13 10:19:39 --> mysqli_sql_exception: Expression #1 of ORDER BY clause is not in SELECT list, references column 'pusaka.ms_tanggal_libur.tanggal' which is not in SELECT list; this is incompatible with DISTINCT in /var/www/pusaka/system/Database/MySQLi/Connection.php:327
+Stack trace:
+#0 /var/www/pusaka/system/Database/MySQLi/Connection.php(327): mysqli->query()
+#1 /var/www/pusaka/system/Database/BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute()
+#2 /var/www/pusaka/system/Database/BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery()
+#3 /var/www/pusaka/app/Models/PresensiModel.php(1291): CodeIgniter\Database\BaseConnection->query()
+#4 /var/www/pusaka/app/Controllers/Presensi.php(669): App\Models\PresensiModel->list_tahun_in_hari_libur()
+#5 /var/www/pusaka/system/CodeIgniter.php(933): App\Controllers\Presensi->hari_libur()
+#6 /var/www/pusaka/system/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+#7 /var/www/pusaka/system/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+#8 /var/www/pusaka/system/Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 /var/www/pusaka/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#10 /var/www/pusaka/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#11 {main}
+CRITICAL - 2025-10-13 10:19:39 --> CodeIgniter\Database\Exceptions\DatabaseException: Expression #1 of ORDER BY clause is not in SELECT list, references column 'pusaka.ms_tanggal_libur.tanggal' which is not in SELECT list; this is incompatible with DISTINCT
+[Method: GET, Route: presensi/hari_libur]
+in SYSTEMPATH/Database/BaseConnection.php on line 684.
+ 1 APPPATH/Models/PresensiModel.php(1291): CodeIgniter\Database\BaseConnection->query()
+ 2 APPPATH/Controllers/Presensi.php(669): App\Models\PresensiModel->list_tahun_in_hari_libur()
+ 3 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Presensi->hari_libur()
+ 4 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2025-10-13 10:19:39 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Expression #1 of ORDER BY clause is not in SELECT list, references column 'pusaka.ms_tanggal_libur.tanggal' which is not in SELECT list; this is incompatible with DISTINCT
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 332.
+ 1 SYSTEMPATH/Database/BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute()
+ 2 SYSTEMPATH/Database/BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 3 APPPATH/Models/PresensiModel.php(1291): CodeIgniter\Database\BaseConnection->query()
+ 4 APPPATH/Controllers/Presensi.php(669): App\Models\PresensiModel->list_tahun_in_hari_libur()
+ 5 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Presensi->hari_libur()
+ 6 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 7 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 8 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+10 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2025-10-13 10:19:39 --> [Caused by] mysqli_sql_exception: Expression #1 of ORDER BY clause is not in SELECT list, references column 'pusaka.ms_tanggal_libur.tanggal' which is not in SELECT list; this is incompatible with DISTINCT
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 327.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(327): mysqli->query()
+ 2 SYSTEMPATH/Database/BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute()
+ 3 SYSTEMPATH/Database/BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery()
+ 4 APPPATH/Models/PresensiModel.php(1291): CodeIgniter\Database\BaseConnection->query()
+ 5 APPPATH/Controllers/Presensi.php(669): App\Models\PresensiModel->list_tahun_in_hari_libur()
+ 6 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Presensi->hari_libur()
+ 7 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2025-10-13 11:55:03 --> ErrorException: Undefined array key 1
+[Method: POST, Route: api/presensi/start]
+in APPPATH/Helpers/toolshelp_helper.php on line 837.
+ 1 APPPATH/Helpers/toolshelp_helper.php(837): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 APPPATH/Models/PresensiModel.php(1019): hours_tofloat()
+ 3 APPPATH/Controllers/Presensi.php(156): App\Models\PresensiModel->check_insert_pelanggaran_in_start()
+ 4 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Presensi->start()
+ 5 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 6 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 7 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 9 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2025-10-13 12:01:20 --> CodeIgniter\Files\Exceptions\FileException: Could not move file "1760331680_18ee4a5630f3b0515f46.jpg" to "/var/www/pusaka/writable/_pegawai/". Reason: rename(/var/www/pusaka/writable/uploads/20251013/1760331680_18ee4a5630f3b0515f46.jpg,/var/www/pusaka/writable/_pegawai/foto__85_1760331680_18ee4a5630f3b0515f46.jpg): No such file or directory
+[Method: POST, Route: api/file/upload]
+in SYSTEMPATH/Files/File.php on line 171.
+ 1 SYSTEMPATH/Files/File.php(171): CodeIgniter\Files\Exceptions\FileException::forUnableToMove()
+ 2 APPPATH/Controllers/Home.php(166): CodeIgniter\Files\File->move()
+ 3 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Home->do_upload_file()
+ 4 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2025-10-13 12:01:54 --> CodeIgniter\Files\Exceptions\FileException: Could not move file "1760331714_8d86f1ba0e51c064010d.jpg" to "/var/www/pusaka/writable/_pegawai/". Reason: rename(/var/www/pusaka/writable/uploads/20251013/1760331714_8d86f1ba0e51c064010d.jpg,/var/www/pusaka/writable/_pegawai/foto__85_1760331714_8d86f1ba0e51c064010d.jpg): No such file or directory
+[Method: POST, Route: api/file/upload]
+in SYSTEMPATH/Files/File.php on line 171.
+ 1 SYSTEMPATH/Files/File.php(171): CodeIgniter\Files\Exceptions\FileException::forUnableToMove()
+ 2 APPPATH/Controllers/Home.php(166): CodeIgniter\Files\File->move()
+ 3 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Home->do_upload_file()
+ 4 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2025-10-13 13:58:28 --> CodeIgniter\Images\Exceptions\ImageException: The framework needs the following extension(s) installed and loaded: "GD".
+[Method: POST, Route: api/file/upload]
+in SYSTEMPATH/Exceptions/FrameworkException.php on line 76.
+ 1 SYSTEMPATH/Images/Handlers/GDHandler.php(36): CodeIgniter\Exceptions\FrameworkException::forMissingExtension()
+ 2 SYSTEMPATH/Config/Services.php(351): CodeIgniter\Images\Handlers\GDHandler->__construct()
+ 3 SYSTEMPATH/Config/BaseService.php(312): CodeIgniter\Config\Services::image()
+ 4 SYSTEMPATH/Config/BaseService.php(251): CodeIgniter\Config\BaseService::__callStatic()
+ 5 SYSTEMPATH/Config/Services.php(342): CodeIgniter\Config\BaseService::getSharedInstance()
+ 6 SYSTEMPATH/Config/BaseService.php(321): CodeIgniter\Config\Services::image()
+ 7 APPPATH/Helpers/toolshelp_helper.php(590): CodeIgniter\Config\BaseService::__callStatic()
+ 8 APPPATH/Controllers/Home.php(198): create_thumbnail_image()
+ 9 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Home->do_upload_file()
+10 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+11 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+12 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+14 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2025-10-13 14:03:59 --> CodeIgniter\Images\Exceptions\ImageException: The framework needs the following extension(s) installed and loaded: "GD".
+[Method: POST, Route: api/file/upload]
+in SYSTEMPATH/Exceptions/FrameworkException.php on line 76.
+ 1 SYSTEMPATH/Images/Handlers/GDHandler.php(36): CodeIgniter\Exceptions\FrameworkException::forMissingExtension()
+ 2 SYSTEMPATH/Config/Services.php(351): CodeIgniter\Images\Handlers\GDHandler->__construct()
+ 3 SYSTEMPATH/Config/BaseService.php(312): CodeIgniter\Config\Services::image()
+ 4 SYSTEMPATH/Config/BaseService.php(251): CodeIgniter\Config\BaseService::__callStatic()
+ 5 SYSTEMPATH/Config/Services.php(342): CodeIgniter\Config\BaseService::getSharedInstance()
+ 6 SYSTEMPATH/Config/BaseService.php(321): CodeIgniter\Config\Services::image()
+ 7 APPPATH/Helpers/toolshelp_helper.php(590): CodeIgniter\Config\BaseService::__callStatic()
+ 8 APPPATH/Controllers/Home.php(198): create_thumbnail_image()
+ 9 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Home->do_upload_file()
+10 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+11 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+12 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+14 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()

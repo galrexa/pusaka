@@ -5,12 +5,12 @@
             <?php if(return_access_link(['kepegawaian/profile'])){?>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?=site_url('kepegawaian/profile')?>" title="Profile"><i class="fas fa-user-circle"></i> Profile</a></li>
             <?php }?>
-            <?php if(return_access_link(['kepegawaian/hak_keuangan'])){?>
+            <!-- <?php if(return_access_link(['kepegawaian/hak_keuangan'])){?>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?=site_url('kepegawaian/hak_keuangan')?>" title="Hak Keuangan"><i class="fas fa-money-bill-alt"></i> Hak Keuangan</a></li>
-            <?php }?>
-            <?php if(return_access_link(['kepegawaian/bukti_potong_pajak'])){?>
+            <?php }?> -->
+            <!-- <?php if(return_access_link(['kepegawaian/bukti_potong_pajak'])){?>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?=site_url('kepegawaian/bukti_potong_pajak')?>" title="Bukti Potong Pajak"><i class="far fa-file-alt"></i> Bukti Potong Pajak</a></li>
-            <?php }?>
+            <?php }?> -->
             <?php if(return_access_link(['kepegawaian/ulang_tahun'])){?>
                 <li class="sidebar-item"><a class="sidebar-link" href="<?=site_url('kepegawaian/ulang_tahun')?>" title="Ulang Tahun"><i class="fa fa-birthday-cake"></i> Ulang Tahun</a></li>
             <?php }?>
@@ -36,7 +36,7 @@
                     </div>
                 </li>
             <?php }?>
-            <?php if(return_access_link(['kepegawaian/skp_master','kepegawaian/bpp_master'])){?>
+            <!-- <?php if(return_access_link(['kepegawaian/skp_master','kepegawaian/bpp_master'])){?>
                 <li class="sidebar-item">
                     <a class="sidebar-link sidebar-dropdown" data-bs-toggle="collapse" href="#keuanganSubmenu" role="button" aria-expanded="false"><span><i class="fas fa-money-bill-alt"></i> Keuangan</span><i class="fas fa-chevron-down dropdown-arrow"></i></a>
                     <div class="collapse submenu" id="keuanganSubmenu">
@@ -50,7 +50,7 @@
                         </ul>
                     </div>
                 </li>
-            <?php }?>
+            <?php }?> -->
             <?php if(return_access_link(['kepegawaian/unit','kepegawaian/jabatan','kepegawaian/gugus_tugas','kepegawaian/perguruan_tinggi'])){?>
                 <li class="sidebar-item">
                     <a class="sidebar-link sidebar-dropdown" data-bs-toggle="collapse" href="#masterdataSubmenu" role="button" aria-expanded="false"><span><i class="fa fa-database"></i> Master Data</span><i class="fas fa-chevron-down dropdown-arrow"></i></a>

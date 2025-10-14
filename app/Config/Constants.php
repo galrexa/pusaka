@@ -81,7 +81,24 @@ defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125);    // highest a
 /*
 * AUTO PATH URL
 */
-$base_path_url = 'http'.(isset($_SERVER['HTTPS']) ? 's':'').'://'."{$_SERVER['HTTP_HOST']}".preg_replace('@/+$@','',dirname($_SERVER['SCRIPT_NAME'])).'/';
+/*
+* AUTO PATH URL
+*/
+if (php_sapi_name() === 'cli') {
+    // Untuk CLI/Spark commands
+    $base_path_url = env('app.baseURL', 'https://10.137.54.145:8443/');
+} else {
+    // Untuk web request - paksa HTTPS
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || 
+                (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') || 
+                (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 8443)
+                ? 'https' : 'https'; // Paksa https
+    
+    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    $script_dir = preg_replace('@/+$@', '', dirname($_SERVER['SCRIPT_NAME'] ?? ''));
+    
+    $base_path_url = $protocol . '://' . $host . $script_dir . '/';
+}
 defined('BASE_PATH_URL') || define('BASE_PATH_URL', $base_path_url);
 // test
-defined('APP_NAME') || define('APP_NAME', 'Bappisus');
+defined('APP_NAME') || define('APP_NAME', 'Pusaka');

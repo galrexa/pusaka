@@ -144,10 +144,10 @@ class Home extends BaseController
                     $source = WRITEPATH . 'uploads/' . $path;
                     $target = WRITEPATH . 'uploads/';
                     if(array_keys([/*'ktp_','kk_','bpjs_kesehatan_','bpjs_tk_','npwp_','cert_tte_',*/'foto_'/*,'sk_'*/,'sk_tim_'], $first)){
-                        $target = WRITEPATH . '_pegawai/';
+                        $target = WRITEPATH . 'files_pegawai/';
                     }
                     if(array_keys(['ktp','kk','bpjs_kesehatan','bpjs_tk','npwp','cert_tte','spesimen_ttd','bpp','sk','sk_tim'], $first)){
-                        $target = WRITEPATH . '_pegawai/'.$first.'/';
+                        $target = WRITEPATH . 'files_pegawai/'.$first.'/';
                     }
                     if(array_keys(['icon_app'], $first)){
                         $target = FCPATH . 'assets/img/icons/apps/';
