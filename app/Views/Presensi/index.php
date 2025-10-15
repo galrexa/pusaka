@@ -19,448 +19,701 @@
         });
     </script>
     <style>
-
-        .map-container {
-            position: relative;
-            height: calc(100vh - 270px);
-            min-height: 500px;
-        }
-        #map {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        #div_map {
-            width: 100%;
-            height: 100%;
-            border: none;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .bottom-panel {
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            padding-top: 0;
+            overflow-x: hidden;
+        }
+
+        /* Custom Header - Simple & Clean */
+        .presensi-header {
             position: fixed;
-            bottom: 70px;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            z-index: 1002;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .header-logo {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+        }
+
+        .header-title {
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+        }
+
+        .header-user:hover {
+            background: rgba(255, 255, 255, 0.25);
+            text-decoration: none;
+            color: white;
+        }
+
+        .header-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid white;
+        }
+
+        .header-name {
+            font-size: 14px;
+            font-weight: 600;
+            display: none;
+        }
+
+        @media (min-width: 480px) {
+            .header-name {
+                display: block;
+            }
+        }
+
+        /* Status Lokasi Card - Prominent */
+        .status-card {
+            position: fixed;
+            top: 60px;
             left: 0;
             right: 0;
             background: white;
-            border-radius: 20px 20px 0 0;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
-            z-index: 1000;
-            transition: transform 0.3s ease;
-        }
-        .bottom-panel.collapsed {
-            transform: translateY(calc(100% - 60px));
+            z-index: 1001;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 12px 16px 16px;
         }
 
-        .bottom-handle {
-            width: 40px;
-            height: 4px;
-            background: #ddd;
-            border-radius: 2px;
-            margin: 12px auto 16px;
+        .status-greeting {
+            font-size: 14px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+        .status-location {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            margin-bottom: 12px;
+        }
+
+        .status-location.in-area {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border: 2px solid #28a745;
+        }
+
+        .status-location.out-area {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            border: 2px solid #dc3545;
+        }
+
+        .status-location.loading {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 2px solid #2196f3;
+        }
+
+        .status-icon {
+            font-size: 22px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .status-text {
+            flex: 1;
+        }
+
+        .status-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .status-address {
+            font-size: 11px;
+            opacity: 0.8;
+            line-height: 1.3;
+        }
+
+        /* Info Detail Section - Responsive */
+        .info-detail-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .detail-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 8px 12px;
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .detail-card-label {
+            font-size: 10px;
+            color: #64748b;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .detail-card-value {
+            font-size: 12px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .detail-card.empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 11px;
+            flex: 1 1 100%;
+        }
+
+        /* Map Container - Responsive dengan Rounded untuk semua device */
+        .map-container {
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Desktop: Wider map */
+        @media (min-width: 769px) {
+            .map-container {
+                top: 250px;
+                bottom: 100px;
+                width: 90%;
+                max-width: 900px;
+            }
+        }
+
+        /* Mobile: Narrower map but still rounded */
+        @media (max-width: 768px) {
+            .map-container {
+                top: 270px;
+                bottom: 100px;
+                width: 92%;
+                max-width: 500px;
+            }
+        }
+
+        #map, #div_map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .map-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            text-align: center;
+        }
+
+        .spinner {
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Map Controls */
+        .map-controls {
+            position: absolute;
+            right: 12px;
+            top: 12px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .control-btn {
+            background: white;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+            color: #667eea;
         }
 
-        .info-input {
-            padding: 0 20px 20px;
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Bottom Action Panel - Floating Overlay */
+        .action-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Tombol Aksi - Floating Button */
+        .btn-action {
+            padding: 14px 28px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-start:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-stop {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .btn-stop:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-stop:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-action i {
+            font-size: 18px;
+        }
+
+        /* Bottom Navigation - Fixed at bottom */
+        .bottom-nav-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            z-index: 1002;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+            padding: 10px 16px;
+            padding-bottom: calc(10px + env(safe-area-inset-bottom));
+        }
+
+        /* Bottom Navigation - Simplified */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 10px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #9ca3af;
+            padding: 4px 12px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            flex: 1;
+            max-width: 80px;
+        }
+
+        .nav-item.active {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .nav-item:hover {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .nav-item i {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item span {
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        /* Camera Modal */
+        .modal-content {
+            border-radius: 16px;
+        }
+
+        .modal-header {
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        video {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            background: #000;
+            border-radius: 8px;
+        }
+
+        canvas {
+            display: none;
         }
 
         .info-text {
             background: #f8f9fa;
             border: 1px solid #e9ecef;
             border-radius: 12px;
-            /*padding: 12px 16px;*/
-            padding: 5px;
-            font-size: 14px;
+            padding: 12px;
+            font-size: 13px;
             color: #6c757d;
-            margin-bottom: 16px;
+            margin-top: 12px;
         }
 
-		/* tombol absen start/stop */
-        .absent-start-btn {
-            background: linear-gradient(135deg, #198754 0%, #157347 100%);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 16px;
-            width: 100%;
+        .info-text b {
+            display: block;
+            margin-bottom: 8px;
+            color: #495057;
+        }
+
+        .info-text label {
+            display: block;
+            margin: 8px 0;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
         }
-        .absent-start-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
-        }
-
-        .absent-stop-btn {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 16px;
-            width: 100%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
-        }
-        .absent-stop-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
-        }
-
-        .map-controls {
-            position: absolute;
-            right: 16px;
-            top: 16px;
-            z-index: 999;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .control-btn {
-            background: white;
-            border: none;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .control-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            border-top: 1px solid #e9ecef;
-            padding: 8px 0;
-            padding-bottom: calc(8px + env(safe-area-inset-bottom));
-            z-index: 1001;
-            box-shadow: 0 -2px 20px rgba(0,0,0,0.1);
-        }
-        .nav-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 0 16px;
-        }
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: #6c757d;
-            padding: 8px 12px;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            min-width: 60px;
-        }
-        .nav-item.active {
-            color: #3498db;
-            background: rgba(52, 152, 219, 0.1);
-        }
-        .nav-item:hover {
-            color: #3498db;
-            background: rgba(52, 152, 219, 0.05);
-            text-decoration: none;
-        }
-        .nav-item i {
-            font-size: 20px;
-            margin-bottom: 4px;
-        }
-        .nav-item span {
-            font-size: 11px;
-            font-weight: 500;
-            text-align: center;
-        }
-
-        .search-overlay {
-            position: absolute;
-            top: 5px;
-            left: 16px;
-            right: 16px;
-            z-index: 999;
-        }
-        /*#text_info {
-            top: 5px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-            padding: 12px 16px;
-            border: none;
-            font-size: 14px;
-            width: 100%;
-        }*/
-        /*.search-box:focus {
-            outline: none;
-            box-shadow: 0 4px 25px rgba(0,0,0,0.15);
-        }*/
     </style>
 </head>
 <body>
+    <?php
+        // Set timezone Indonesia
+        date_default_timezone_set('Asia/Jakarta');
+        $hour = (int)date('H');
+        
+        // Determine greeting and icon
+        if ($hour >= 5 && $hour < 11) {
+            $greeting = 'Pagi';
+            $icon = '☀️';
+        } elseif ($hour >= 11 && $hour < 15) {
+            $greeting = 'Siang';
+            $icon = '🌤️';
+        } elseif ($hour >= 15 && $hour < 18) {
+            $greeting = 'Sore';
+            $icon = '🌅';
+        } else {
+            $greeting = 'Malam';
+            $icon = '🌙';
+        }
+    ?>
 
-    <!-- Header -->
-    <div class="navbar header">
-        <div class="container-fluid">
-            <div class="header-left">
-                <div class="navbar-brand"><img src="<?=base_url('assets/img/logo.png')?>" alt="Brand Logo"></div>
+    <!-- Custom Header - Simple & Clean -->
+    <header class="presensi-header">
+        <div class="header-left">
+            <a href="<?=base_url()?>" class="header-brand">
+                <img src="<?=base_url('assets/img/logo.png')?>" alt="Logo" class="header-logo">
+                <span class="header-title">Presensi</span>
+            </a>
+        </div>
+        <!-- <div class="header-right">
+            <a href="<?=site_url('kepegawaian/profile')?>" class="header-user">
+                <span class="header-name"><?=session()->get('nama')?></span>
+                <img src="<?=session()->get('pegawai_foto')?>" alt="Profile" class="header-avatar">
+            </a>
+        </div> -->
+    </header>
+
+    <!-- Include Alert & Toast Helper -->
+    <?=view('tBaseAlert')?>
+
+    <!-- Status Lokasi Card -->
+    <div class="status-card">
+        <div class="status-greeting">
+            <?=$icon?> Selamat <?=$greeting?>, <strong><?=session()->get('nama')?></strong>
+        </div>
+        
+        <div class="status-location loading" id="status_location">
+            <i class="fas fa-spinner fa-spin status-icon"></i>
+            <div class="status-text">
+                <div class="status-title" id="status_title">Mengambil lokasi...</div>
+                <div class="status-address" id="status_address">Mohon tunggu sebentar</div>
             </div>
-            <img src="<?=session()->get('pegawai_foto')?>" height="50" class="rounded-circle">
+        </div>
+
+        <!-- Info Detail Section -->
+        <div class="info-detail-section">
+            <?php if(!empty($data)){?>
+                <div class="detail-card">
+                    <div class="detail-card-label">
+                        <i class="fas fa-play-circle text-success"></i>
+                        Mulai
+                    </div>
+                    <div class="detail-card-value">
+                        <?=substr($data->start, 10)?>
+                    </div>
+                </div>
+                <?php if($data->stop<>''){?>
+                <div class="detail-card">
+                    <div class="detail-card-label">
+                        <i class="fas fa-stop-circle text-danger"></i>
+                        Selesai
+                    </div>
+                    <div class="detail-card-value">
+                        <?=substr($data->stop, 10)?>
+                    </div>
+                </div>
+                <?php }?>
+                <div class="detail-card">
+                    <div class="detail-card-label">
+                        <i class="fas fa-clock text-primary"></i>
+                        Durasi
+                    </div>
+                    <div class="detail-card-value">
+                        <?=$data->total_durasi?>
+                    </div>
+                </div>
+            <?php }else{?>
+                <div class="detail-card empty">
+                    <i class="fas fa-info-circle me-1"></i>
+                    Belum ada presensi hari ini
+                </div>
+            <?php }?>
         </div>
     </div>
-
-    <!-- Shift Info -->
-    <div class="shift-info">
-        <div class="row mb-1">
-            <div class="col fw-bold">
-                Hi <?=session()->get('nama')?>, <?=session()->get('email')?>
-            </div>
-        </div>
-		<div class="row" style="font-size:8pt;">
-			<?php if(!empty($data)){?>
-				<div class="col">
-					<?php if(!empty($data)){
-						$start_latlong = explode(',', $data->start_latlong);
-						?>
-						<a href="#" onclick="showPosition('<?=$start_latlong[0]?>', '<?=$start_latlong[1]?>', 'Lokasi mulai kerja')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lokasi mulai kerja: <?=$data->start_latlong?>, IPAddress: <?=$data->start_ip?>" style="text-decoration: none;">Mulai <i class="fas fa-map-marker-alt text-success"></i> <?=tanggal(substr($data->start,0,10), 4)?>, <?=substr($data->start, 10)?></a>
-					<?php }?>
-				</div>
-				<div class="col">
-					<?php if(!empty($data)){ if($data->stop<>''){
-						$stop_latlong = explode(',', $data->stop_latlong);
-						?>
-						<a href="#" onclick="showPosition('<?=$stop_latlong[0]?>', '<?=$stop_latlong[1]?>', 'Lokasi selesai kerja')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lokasi selesai kerja: <?=$data->stop_latlong?>, IPAddress: <?=$data->stop_ip?>" style="text-decoration: none;">Selesai <i class="fas fa-map-marker-alt text-danger"></i> <?=tanggal(substr($data->stop,0,10), 4)?>, <?=substr($data->stop, 10)?></a>
-					<?php }}?>
-				</div>
-				<div class="col fw-bold"><a href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Total Durasi Presensi" style="text-decoration:none;">Total Durasi: <?=$data->total_durasi?></a></div>
-			<?php }else{?>
-				<div class="col div_info_presensi"></div>
-			<?php }?>
-		</div>
-    </div>
-
-    <?php if(session()->get('message')){?>
-        <!-- ALERT FLASHDATA -->
-        <div class="alert alert-warning m-3" id="flashdata_message">
-            <i class="fa fa-exclamation-circle"></i> <?=session()->get('message')?>
-        </div>
-    <?php }?>
 
     <!-- Map Container -->
     <div class="map-container">
-        <!-- Search Overlay -->
-        <div class="search-overlay rounded text-center">
-            <span id="text_info"></span>
-            <br>
-            <span id="txt_address" style="font-size: 9pt;"></span>
+        <div class="map-loading" id="map_loading">
+            <div class="spinner"></div>
+            <small style="color: #6b7280;">Memuat peta...</small>
         </div>
-        <!-- Map -->
         <div id="div_map"></div>
+        
+        <!-- Map Controls -->
         <div class="map-controls">
-            <button class="control-btn" onclick="window.location.reload(true)" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Refresh lokasi"><i class="fas fa-crosshairs"></i></button>
-            <button class="control-btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Open Camera" id="btnOpenCam" style="display:none"><i class="fa fa-camera"></i></button>
+            <button class="control-btn" onclick="window.location.reload(true)" title="Refresh Lokasi">
+                <i class="fas fa-sync-alt"></i>
+            </button>
+            <button class="control-btn" id="btnOpenCam" style="display:none" title="Buka Kamera">
+                <i class="fa fa-camera"></i>
+            </button>
+        </div>
+
+        <!-- Floating Action Button - Overlay di Peta -->
+        <div class="action-panel">
+            <div class="div_tombol_presensi">
+                <button class="btn-action btn-start" onclick="presensi_start()">
+                    <i class="fas fa-play-circle"></i>
+                    <span>Mulai Kerja</span>
+                </button>
+            </div>
         </div>
     </div>
 
-    <!-- Bottom Panel -->
-    <div class="bottom-panel" id="bottomPanel">
-        <div class="info-input">
-            <div class="div_tombol_presensi mt-3">
-	            <button class="absent-start-btn">
-	                <i class="fas fa-play"></i> Mulai Kerja
-	            </button>
-	        </div>
-        </div>
-    </div>
-
-    <!-- Bottom Navigation -->
-    <div class="bottom-nav">
-        <div class="nav-container">
-            <div class="nav-item" onclick="window.location.assign('<?=base_url()?>')" title="Beranda" data-bs-toggle="tooltip" data-bs-placement="bottom">
+    <!-- Bottom Navigation - Fixed -->
+    <div class="bottom-nav-container">
+        <div class="bottom-nav">
+            <a href="<?=base_url()?>" class="nav-item">
                 <i class="fas fa-home"></i>
                 <span>Beranda</span>
-            </div>
+            </a>
             <?php if(return_access_link(['presensi/index'])){?>
-	            <div class="nav-item active" onclick="window.location.assign('<?=site_url('presensi/index')?>')" title="Halaman Presensi" data-bs-toggle="tooltip" data-bs-placement="bottom">
-	                <i class="fas fa-street-view"></i>
-	                <span>Presensi</span>
-	            </div>
-	        <?php }?>
-	        <?php if(return_access_link(['presensi/riwayat'])){?>
-	            <div class="nav-item" onclick="window.location.assign('<?=site_url('presensi/riwayat')?>')" title="Riwayat Presensi" data-bs-toggle="tooltip" data-bs-placement="bottom">
-	                <i class="fas fa-history"></i>
-	                <span>Riwayat</span>
-	            </div>
-	        <?php }?>
-	        <?php if(return_access_link(['presensi/harian'])){?>
-	            <div class="nav-item" onclick="window.location.assign('<?=site_url('presensi/harian')?>')" title="Presensi Harian Pegawai" data-bs-toggle="tooltip" data-bs-placement="bottom">
-	                <i class="fas fa-calendar-check"></i>
-	                <span>Harian</span>
-	            </div>
-	        <?php }?>
-	        <?php if(return_access_link(['presensi/bulanan'])){?>
-	            <div class="nav-item" onclick="window.location.assign('<?=site_url('presensi/bulanan')?>')" title="Resume Presensi Bulanan" data-bs-toggle="tooltip" data-bs-placement="bottom">
-	                <i class="fas fa-calendar-alt"></i>
-	                <span>Bulanan</span>
-	            </div>
-	        <?php }?>
+                <div class="nav-item active">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Presensi</span>
+                </div>
+            <?php }?>
+            <?php if(return_access_link(['presensi/riwayat'])){?>
+                <a href="<?=site_url('presensi/riwayat')?>" class="nav-item">
+                    <i class="fas fa-history"></i>
+                    <span>Riwayat</span>
+                </a>
+            <?php }?>
+            <?php if(return_access_link(['presensi/harian'])){?>
+                <a href="<?=site_url('presensi/harian')?>" class="nav-item">
+                    <i class="fas fa-calendar-day"></i>
+                    <span>Harian</span>
+                </a>
+            <?php }?>
         </div>
     </div>
 
-    <!-- modal for cam -->
-    <div class="modal" tabindex="-1" id="modal_open_cam" data-bs-backdrop="static">
-        <div class="modal-dialog">
+    <!-- Modal Camera -->
+    <div class="modal fade" id="modal_open_cam" data-bs-backdrop="static" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header color-red fw-bold d-flex" id="modal_open_cam_header">
-                    <span class="flex-grow-1 fw-bold">Tag Foto & alasan</span>
-                    <a href="#" class="btn btn-light" onclick="switchCamera()" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ganti kamera"><i class="fa fa-camera-retro"></i></a>
+                <div class="modal-header">
+                    <h5 class="modal-title">📸 Ambil Foto & Alasan</h5>
+                    <button type="button" class="btn btn-light btn-sm" onclick="switchCamera()">
+                        <i class="fa fa-sync-alt"></i> Ganti Kamera
+                    </button>
                 </div>
-                <div class="modal-body" id="modal_open_cam_body">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12">
-                            <!-- <div class="camera-container"> -->
-                                <video class="liveCam" id="video" autoplay playsinline></video>
-                                <canvas class="liveCam" id="canvas"></canvas>
-                                <div class="" id="imghasil" style="display:none"></div>
-                            <!-- </div> -->
-                            <div class="info-text mt-1" id="keterangan">
-                                <b class="d-block">Keterangan:</b>
-                                <?php foreach (return_referensi_list('alasan_absen_luar_area') as $k) {?>
-                                    <label class="m-1"><input type="radio" name="keterangan" value="<?=$k->ref_name?>"> <?=$k->ref_name?></label>
-                                <?php }?>
-                                <textarea class="form-control" name="keterangan2" id="keterangan2" placeholder="Keterangan"></textarea>
-                                <input type="hidden" name="file_foto" id="file_foto" value="">
-                            </div>
-                        </div>
+                <div class="modal-body">
+                    <video class="liveCam" id="video" autoplay playsinline></video>
+                    <canvas class="liveCam" id="canvas"></canvas>
+                    <div id="imghasil" style="display:none"></div>
+                    
+                    <div class="info-text" id="keterangan">
+                        <b>Pilih Keterangan:</b>
+                        <?php foreach (return_referensi_list('alasan_absen_luar_area') as $k) {?>
+                            <label>
+                                <input type="radio" name="keterangan" value="<?=$k->ref_name?>"> 
+                                <?=$k->ref_name?>
+                            </label>
+                        <?php }?>
+                        <textarea class="form-control mt-2" name="keterangan2" id="keterangan2" placeholder="Keterangan tambahan..." rows="2"></textarea>
+                        <input type="hidden" name="file_foto" id="file_foto">
                     </div>
                 </div>
-                <div class="modal-footer" id="modal_open_cam_footer">
-                    <button type="button" class="btn color-red" onclick="capturePhoto()"><i class="fas fa-save"></i> Simpan</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="stopCamera()"><i class="fa fa-times"></i> Batal</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="capturePhoto()">
+                        <i class="fas fa-check"></i> Simpan Foto
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="stopCamera()">
+                        <i class="fa fa-times"></i> Batal
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-    <style>
-        video {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            background: #000;
-        }
-        canvas {
-            display: none;
-        }
-    </style>
 
-	<link rel="stylesheet" href="<?=base_url('assets/vendors/leaflet/leaflet.css')?>"/>
-	<script src="<?=base_url('assets/vendors/leaflet/leaflet.js')?>"></script>
-	<script src="<?=base_url('assets/js/custom.js')?>"></script>
-	<script type="text/javascript">
-		var totalSeconds = 0;
+    <link rel="stylesheet" href="<?=base_url('assets/vendors/leaflet/leaflet.css')?>"/>
+    <script src="<?=base_url('assets/vendors/leaflet/leaflet.js')?>"></script>
+    <script src="<?=base_url('assets/js/custom.js')?>"></script>
+    <script type="text/javascript">
+        var totalSeconds = 0;
         localStorage.setItem('open_modal_', 0)
 
-		$(function(){
-			presensi_check()
-			getLocation()
+        $(function(){
+            presensi_check()
+            getLocation()
+            
+            // Initialize tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[title]'))
+            var tooltipList = tooltipTriggerList.map(function (el) {
+                return new bootstrap.Tooltip(el)
+            })
+        })
 
-            $("#flashdata_message").fadeTo(5000, 500).slideUp(500, function(){
-                $("#flashdata_message").slideUp(500);
-            });
-		})
-
-
-		function presensi_start()
-		{
+        function presensi_start() {
             var open_modal_ = localStorage.getItem('open_modal_')
             var in_area = localStorage.getItem('in_area')
             var clat = localStorage.getItem('clat')
-			var clong = localStorage.getItem('clong')
+            var clong = localStorage.getItem('clong')
             var keterangan = ''
             var keterangan2 = ''
             var file_foto = $('#file_foto').val()
             var rslt = 0
-            if((in_area==1)){
+            
+            if(in_area==1){
                 rslt = 1
             }else{
                 switch (open_modal_) {
-                  case '0':
-                    startCamera(1)
-                    // return false
-                    break;
-                  default:
-                    keterangan = $('input[name=keterangan]:checked').val()
-                    keterangan2 = $('#keterangan2').val()
-                    if(in_area==0 && (keterangan=='' || keterangan==undefined))
-                    {
-                        keterangan = ''
-                        alert('Pilih keterangan terlebih dahulu')
-                    }else{
-                        if(keterangan=='Lainnya')
-                            keterangan += ': ' + keterangan2
-                        rslt = 1
-                    }
-                    break;
-                }
-            }
-            if(rslt==1){
-				$.post('<?=site_url('api/presensi/start')?>', {latlong:clat+','+clong, keterangan:keterangan, file_foto:file_foto}, function(rs){
-					if(rs.status==true)
-					{
-                        localStorage.setItem('open_modal_', 0)
-                        window.location.assign('<?=site_url('presensi/riwayat')?>')
-					}else{
-						alert(rs.message)
-					}
-				})
-            }
-		}
-
-		function presensi_stop(id)
-		{
-            var open_modal_ = localStorage.getItem('open_modal_')
-			var cf = true
-            if(open_modal_=='0')
-                cf = confirm('Akhiri atau Selesaikan Presensi?')
-			if(cf===true){
-                var in_area = localStorage.getItem('in_area')
-				var clat = localStorage.getItem('clat')
-				var clong = localStorage.getItem('clong')
-                var keterangan = ''
-                var keterangan2 = ''
-                var file_foto = $('#file_foto').val()
-                var rslt = 0
-                if((in_area==1)){
-                    rslt = 1
-                }else{
-                    switch (open_modal_) {
-                      case '0':
-                        startCamera(2)
-                        // return false
+                    case '0':
+                        startCamera(1)
                         break;
-                      default:
+                    default:
                         keterangan = $('input[name=keterangan]:checked').val()
                         keterangan2 = $('#keterangan2').val()
-                        if(in_area==0 && (keterangan=='' || keterangan==undefined))
-                        {
-                            keterangan = ''
+                        if(in_area==0 && (keterangan=='' || keterangan==undefined)) {
                             alert('Pilih keterangan terlebih dahulu')
                         }else{
                             if(keterangan=='Lainnya')
@@ -468,217 +721,243 @@
                             rslt = 1
                         }
                         break;
+                }
+            }
+            
+            if(rslt==1){
+                $.post('<?=site_url('api/presensi/start')?>', {
+                    latlong:clat+','+clong, 
+                    keterangan:keterangan, 
+                    file_foto:file_foto
+                }, function(rs){
+                    if(rs.status==true) {
+                        localStorage.setItem('open_modal_', 0)
+                        window.location.assign('<?=site_url('presensi/riwayat')?>')
+                    }else{
+                        alert(rs.message)
+                    }
+                })
+            }
+        }
+
+        function presensi_stop(id) {
+            var open_modal_ = localStorage.getItem('open_modal_')
+            var cf = true
+            if(open_modal_=='0')
+                cf = confirm('Akhiri presensi hari ini?')
+                
+            if(cf===true){
+                var in_area = localStorage.getItem('in_area')
+                var clat = localStorage.getItem('clat')
+                var clong = localStorage.getItem('clong')
+                var keterangan = ''
+                var keterangan2 = ''
+                var file_foto = $('#file_foto').val()
+                var rslt = 0
+                
+                if(in_area==1){
+                    rslt = 1
+                }else{
+                    switch (open_modal_) {
+                        case '0':
+                            startCamera(2)
+                            break;
+                        default:
+                            keterangan = $('input[name=keterangan]:checked').val()
+                            keterangan2 = $('#keterangan2').val()
+                            if(in_area==0 && (keterangan=='' || keterangan==undefined)) {
+                                alert('Pilih keterangan terlebih dahulu')
+                            }else{
+                                if(keterangan=='Lainnya')
+                                    keterangan += ': ' + keterangan2
+                                rslt = 1
+                            }
+                            break;
                     }
                 }
+                
                 if(rslt==1){
-    				$.post('<?=site_url('api/presensi/stop')?>', {id:id, latlong:clat+','+clong, keterangan:keterangan, file_foto:file_foto}, function(rs){
-    					if(rs.status==true)
-    					{
+                    $.post('<?=site_url('api/presensi/stop')?>', {
+                        id:id, 
+                        latlong:clat+','+clong, 
+                        keterangan:keterangan, 
+                        file_foto:file_foto
+                    }, function(rs){
+                        if(rs.status==true) {
                             localStorage.setItem('open_modal_', 0)
                             window.location.assign('<?=site_url('presensi/riwayat')?>')
-    					}else{
-    						alert(rs.message)
-    					}
-    				})
+                        }else{
+                            alert(rs.message)
+                        }
+                    })
                 }
-			}
-		}
-
-		function presensi_check()
-		{
-			$('#keterangan').hide().prop('required', false)
-			$.get('<?=site_url('api/presensi/check')?>', function(rs){
-				if(rs.status==true)
-				{
-					localStorage.setItem('durasi_in_second', parseInt(rs.data.durasi_in_second));
-					totalSeconds = parseInt(localStorage.getItem('durasi_in_second'));
-					var jStart = rs.data.start
-					var start_latlong = rs.data.start_latlong.split(',')
-					var jStartSplit = jStart.split(' ')
-					if(rs.data.stop==null){
-                        localStorage.setItem('presensi_id', rs.data.id)
-						$('.div_tombol_presensi').html('<a href="#" class="btn btn-sm btn-outline-danger absent-stop-btn" onclick="presensi_stop('+rs.data.id+')"><i class="fa fa-stop"></i> Selesai Kerja (<span class="countUpTimes"></span>)</a>')
-						setInterval(countUpTracker, 1000);
-					}else{
-						$('.div_tombol_presensi').html('<button class="absent-start-btn " onclick="presensi_start()"><i class="fa fa-play"></i> Mulai Kerja</button>')
-						localStorage.removeItem('durasi_in_second');
-					}
-				}else{
-					$('.div_info_presensi').html('<small class="text-danger">'+rs.message+'</small>')
-					$('.div_tombol_presensi').html('<button class="absent-start-btn" onclick="presensi_start()"><i class="fa fa-play"></i> Mulai Kerja</button>')
-					localStorage.removeItem('durasi_in_second');
-				}
-			})
-		}
-
-		function countUpTracker() {
-			++totalSeconds;
-			var sec_num = parseInt(totalSeconds, 10)
-			var hours   = Math.floor(sec_num / 3600)
-			var minutes = Math.floor(sec_num / 60) % 60
-			var seconds = sec_num % 60
-			var durasi = [hours,minutes,seconds]
-				.map(v => v < 10 ? "0" + v : v)
-				.filter((v,i) => v !== "00" || i > 0)
-				.join(":")
-			$('.countUpTimes').html(durasi);
-		}
-
-
-		function getLocation() {
-			$('#text_info').html('<i class="fas fa-spinner fa-spin"></i> Mengambil lokasi perangkat..').prop('class', 'fw-bold text-primary bg-light')
-            $('#txt_address').html('')
-			if (navigator.geolocation) {
-				navigator.geolocation.getCurrentPosition(saveLatLong);
-			} else {
-				x.innerHTML = "Geolocation is not supported by this browser.";
-			}
-		}
-
-		function saveLatLong(position)
-		{
-			var coord_lat = position.coords.latitude
-			var coord_long = position.coords.longitude
-			localStorage.setItem('clat', coord_lat)
-			localStorage.setItem('clong', coord_long)
-			console.log('LongLat:', coord_lat+', '+coord_long)
-			showPosition()
-			check_my_location_in_areas()
-            get_my_address_by_latlong()
-		}
-
-		function showPosition(clat='', clong='', deskripsi='Lokasi Anda saat ini!')
-		{
-            /*var redIcon = L.icon({
-                iconUrl: '<?=base_url('assets/vendors/leaflet/images/6905745.png')?>',
-                // shadowUrl: '<?=base_url('assets/vendors/leaflet/images/6905745.png')?>',
-                iconSize:     [50, 55],
-                shadowSize:   [50, 64],
-                iconAnchor:   [22, 94],
-                shadowAnchor: [4, 62],
-                popupAnchor:  [-3, -76]
-            });*/
-            var presensi_area = [
-                <?php foreach ($list_area as $k) {
-                	echo '["'.$k->name.'", '.$k->latlong.','.$k->range.'],';
-                }?>
-            ]
-			var coord_lat = (clat)?clat:localStorage.getItem('clat')
-			var coord_long = (clong)?clong:localStorage.getItem('clong')
-            $('#div_map').html('<div id="map"></div>')
-			var map = L.map('map').setView([coord_lat, coord_long], 17);
-			/*L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-			    maxZoom: 19,
-			    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-			}).addTo(map);*/
-			L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}',{
-			    maxZoom: 20,
-			    subdomains:['mt0','mt1','mt2','mt3']
-			}).addTo(map)
-			var marker = L.marker([coord_lat, coord_long]).addTo(map).bindPopup(deskripsi).openPopup()
-            for (var i = 0; i < presensi_area.length; i++) {
-                // FOR MARKER
-                /*marker = new L.marker([presensi_area[i][1], presensi_area[i][2]], {icon:redIcon})
-                .bindPopup(presensi_area[i][0]).openPopup()
-                .addTo(map);*/
-                // FOR RADIUS
-                /*circle = L.circle([presensi_area[i][1], presensi_area[i][2]], {
-                    color: 'red',
-                    fillColor: '#f03',
-                    fillOpacity: 0.2,
-                    radius: presensi_area[i][3]
-                }).addTo(map).bindPopup("Area Presensi "+presensi_area[i][0]);*/
             }
-		}
+        }
 
-        // aktifasi tooltips
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
-
-		function check_my_location_in_areas(clat='', clong='')
-		{
-			var coord_lat = (clat)?clat:localStorage.getItem('clat')
-			var coord_long = (clong)?clong:localStorage.getItem('clong')
-			$.get('<?=site_url('api/check_location_in_radius_absen')?>', {lat: coord_lat, long:coord_long}, function(rs){
-				if(rs.status==true)
-				{
-					var status = rs.data.status
-					if(status==false)
-					{
-						$('#text_info').html(rs.data.message).prop('class', 'fw-bold text-danger bg-light')
-                        $('#txt_address').prop('class', 'text-danger bg-light')
-						$('#keterangan').show().prop('required', true)
-                        $('#btnOpenCam').show()
-                        localStorage.setItem('in_area', 0)
-					}else{
-						$('#text_info').html(rs.data.message).prop('class', 'fw-bold text-success bg-light')
-                        $('#txt_address').prop('class', 'text-success bg-light')
-						$('#keterangan').hide().prop('required', false)
-                        $('#btnOpenCam').hide()
-                        localStorage.setItem('in_area', 1)
-					}
-                    checkPilihKeterangan()
-				}else{
-					alert(rs.message)
-				}
-			})
-		}
-
-        function get_my_address_by_latlong(clat='', clong='')
-        {
-            var coord_lat = (clat)?clat:localStorage.getItem('clat')
-            var coord_long = (clong)?clong:localStorage.getItem('clong')
-            $.get('<?=site_url('api/get_place')?>', {latlng: coord_lat+','+coord_long}, function(rs){
-                console.log(rs.data)
-                var almt = rs.data.results[0].formatted_address
-                $('#txt_address').html(almt)
+        function presensi_check() {
+            $('#keterangan').hide().prop('required', false)
+            $.get('<?=site_url('api/presensi/check')?>', function(rs){
+                if(rs.status==true) {
+                    localStorage.setItem('durasi_in_second', parseInt(rs.data.durasi_in_second));
+                    totalSeconds = parseInt(localStorage.getItem('durasi_in_second'));
+                    
+                    if(rs.data.stop==null){
+                        localStorage.setItem('presensi_id', rs.data.id)
+                        $('.div_tombol_presensi').html(
+                            '<button class="btn-action btn-stop" onclick="presensi_stop('+rs.data.id+')">'+
+                            '<i class="fa fa-stop-circle"></i>'+
+                            '<span>Selesai (<span class="countUpTimes"></span>)</span>'+
+                            '</button>'
+                        )
+                        setInterval(countUpTracker, 1000);
+                    }else{
+                        $('.div_tombol_presensi').html(
+                            '<button class="btn-action btn-start" onclick="presensi_start()">'+
+                            '<i class="fa fa-play-circle"></i>'+
+                            '<span>Mulai Kerja</span>'+
+                            '</button>'
+                        )
+                        localStorage.removeItem('durasi_in_second');
+                    }
+                }else{
+                    $('.div_tombol_presensi').html(
+                        '<button class="btn-action btn-start" onclick="presensi_start()">'+
+                        '<i class="fa fa-play-circle"></i>'+
+                        '<span>Mulai Kerja</span>'+
+                        '</button>'
+                    )
+                    localStorage.removeItem('durasi_in_second');
+                }
             })
         }
 
-        /*
-        *   open camera dll
-        */
+        function countUpTracker() {
+            ++totalSeconds;
+            var sec_num = parseInt(totalSeconds, 10)
+            var hours = Math.floor(sec_num / 3600)
+            var minutes = Math.floor(sec_num / 60) % 60
+            var seconds = sec_num % 60
+            var durasi = [hours,minutes,seconds]
+                .map(v => v < 10 ? "0" + v : v)
+                .filter((v,i) => v !== "00" || i > 0)
+                .join(":")
+            $('.countUpTimes').html(durasi);
+        }
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(saveLatLong, function(error) {
+                    console.error('Geolocation error:', error)
+                    $('#status_title').text('Gagal mengambil lokasi')
+                    $('#status_address').text('Pastikan GPS aktif dan izinkan akses lokasi')
+                    $('#status_location').removeClass('loading').addClass('out-area')
+                });
+            } else {
+                alert("Geolocation tidak didukung browser ini");
+            }
+        }
+
+        function saveLatLong(position) {
+            var coord_lat = position.coords.latitude
+            var coord_long = position.coords.longitude
+            localStorage.setItem('clat', coord_lat)
+            localStorage.setItem('clong', coord_long)
+            console.log('Koordinat:', coord_lat+', '+coord_long)
+            showPosition()
+            check_my_location_in_areas()
+            get_my_address_by_latlong()
+        }
+
+        function showPosition(clat='', clong='', deskripsi='Lokasi Anda saat ini!') {
+            var presensi_area = [
+                <?php foreach ($list_area as $k) {
+                    echo '["'.$k->name.'", '.$k->latlong.','.$k->range.'],';
+                }?>
+            ]
+            var coord_lat = (clat)?clat:localStorage.getItem('clat')
+            var coord_long = (clong)?clong:localStorage.getItem('clong')
+            
+            $('#div_map').html('<div id="map"></div>')
+            $('#map_loading').fadeOut()
+            
+            var map = L.map('map').setView([coord_lat, coord_long], 17);
+            L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+                maxZoom: 20,
+                subdomains:['mt0','mt1','mt2','mt3']
+            }).addTo(map)
+            
+            var marker = L.marker([coord_lat, coord_long]).addTo(map)
+                .bindPopup(deskripsi).openPopup()
+        }
+
+        function check_my_location_in_areas(clat='', clong='') {
+            var coord_lat = (clat)?clat:localStorage.getItem('clat')
+            var coord_long = (clong)?clong:localStorage.getItem('clong')
+            
+            $.get('<?=site_url('api/check_location_in_radius_absen')?>', {
+                lat: coord_lat, 
+                long:coord_long
+            }, function(rs){
+                if(rs.status==true) {
+                    var status = rs.data.status
+                    if(status==false) {
+                        $('#status_title').html(rs.data.message)
+                        $('#status_location').removeClass('loading in-area').addClass('out-area')
+                        $('#status_location .status-icon').removeClass('fa-spin fa-spinner').addClass('fa-exclamation-triangle')
+                        $('#keterangan').show().prop('required', true)
+                        $('#btnOpenCam').show()
+                        localStorage.setItem('in_area', 0)
+                    }else{
+                        $('#status_title').html(rs.data.message)
+                        $('#status_location').removeClass('loading out-area').addClass('in-area')
+                        $('#status_location .status-icon').removeClass('fa-spin fa-spinner').addClass('fa-check-circle')
+                        $('#keterangan').hide().prop('required', false)
+                        $('#btnOpenCam').hide()
+                        localStorage.setItem('in_area', 1)
+                    }
+                    checkPilihKeterangan()
+                }else{
+                    alert(rs.message)
+                }
+            })
+        }
+
+        function get_my_address_by_latlong(clat='', clong='') {
+            var coord_lat = (clat)?clat:localStorage.getItem('clat')
+            var coord_long = (clong)?clong:localStorage.getItem('clong')
+            
+            $.get('<?=site_url('api/get_place')?>', {
+                latlng: coord_lat+','+coord_long
+            }, function(rs){
+                if(rs.data && rs.data.results && rs.data.results.length > 0) {
+                    var almt = rs.data.results[0].formatted_address
+                    $('#status_address').html(almt)
+                }
+            })
+        }
+
+        // Camera Functions
         let video = document.getElementById('video');
         let canvas = document.getElementById('canvas');
         let btnOpenCam = document.getElementById('btnOpenCam');
-        // let captureBtn = document.getElementById('captureBtn');
-        // let switchBtn = document.getElementById('switchBtn');
-        // let gallery = document.getElementById('gallery');
-        // let status = document.getElementById('status');
-        // let flash = document.getElementById('flash');
         let stream = null;
-        let currentFacingMode = 'user'; // 'user' untuk kamera depan, 'environment' untuk kamera belakang
-        let photos = [];
-        // $('#btnOpenCam').on('click', function(e){
-        //     console.log('open cam...')
-        //     startCamera()
-        // });
+        let currentFacingMode = 'user';
 
         async function startCamera(opt) {
             $('#modal_open_cam').modal('show')
-            // // $('#imghasil').html('').hide()
-            // $('#imghasil').empty().hide()
-            // $('.liveCam').show()
             try {
                 const constraints = {
-                    video: {
-                        facingMode: currentFacingMode,
-                        // width: { ideal: 100 },
-                        // height: { ideal: 1080 }
-                    }
+                    video: { facingMode: currentFacingMode }
                 };
                 stream = await navigator.mediaDevices.getUserMedia(constraints);
                 video.srcObject = stream;
                 localStorage.setItem('opt', opt)
             } catch (err) {
                 console.error('Error accessing camera:', err);
-                // status.textContent = 'Error: Tidak dapat mengakses kamera. Pastikan Anda memberikan izin kamera.';
+                alert('Tidak dapat mengakses kamera')
             }
         }
 
-        // Menghentikan kamera
         function stopCamera() {
             if (stream) {
                 stream.getTracks().forEach(track => track.stop());
@@ -692,136 +971,85 @@
             var opt = localStorage.getItem('opt')
             keterangan = $('input[name=keterangan]:checked').val()
             keterangan2 = $('#keterangan2').val()
-            if(keterangan=='' || keterangan==undefined)
-            {
-                keterangan = ''
+            
+            if(!keterangan) {
                 alert('Pilih keterangan terlebih dahulu.')
-            }else{
-                if(keterangan=='Lainnya')
-                {
-                    if(keterangan2=='')
-                    {
-                        alert('Isi keterangan terlebih dahulu..')
-                    }else{
-                        lock += 1
-                    }
-                }else{
-                    lock += 1
-                }
+                return
             }
-            if(lock > 0)
-            {
-                localStorage.setItem('open_modal_', 1)
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(video, 0, 0);
-                const dataURL = canvas.toDataURL('image/png');
-                var push_file = file_upload_form_capture_whit_query(dataURLToBlob(dataURL), 'selfi_cam', '?pegawai_id=<?=session()->get('pegawai_id')?>', function(push_filex){
-                    console.log('__HASIL UPLOAD:__',push_filex)
-                    if(push_filex.status==true)
-                    {
-                        $('#file_foto').val(push_filex.data.id)
-                        var hasil_foto = `<img src="${dataURL}" alt="Photo hasil" class="img img-thumbnail">`
-                        $('#imghasil').show().html(hasil_foto)
+            
+            if(keterangan=='Lainnya' && !keterangan2) {
+                alert('Isi keterangan tambahan.')
+                return
+            }
+            
+            localStorage.setItem('open_modal_', 1)
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0);
+            const dataURL = canvas.toDataURL('image/png');
+            
+            file_upload_form_capture_whit_query(
+                dataURLToBlob(dataURL), 
+                'selfi_cam', 
+                '?pegawai_id=<?=session()->get('pegawai_id')?>', 
+                function(result){
+                    if(result.status==true) {
+                        $('#file_foto').val(result.data.id)
+                        $('#imghasil').show().html(`<img src="${dataURL}" class="img-thumbnail">`)
                         $('.liveCam').hide()
+                        
                         if(opt==='1'){
                             presensi_start()
                         }else{
                             presensi_stop(localStorage.getItem('presensi_id'))
                         }
-                    }else{
-
                     }
-                })
-            }
+                }
+            )
         }
-        
+
         async function switchCamera() {
             currentFacingMode = currentFacingMode === 'user' ? 'environment' : 'user';
             if (stream) {
                 stopCamera();
-                setTimeout(startCamera, 100);
-            }    
-            console.log(`Beralih ke kamera ${currentFacingMode === 'user' ? 'depan' : 'belakang'}`)
+                setTimeout(() => startCamera(localStorage.getItem('opt')), 100);
+            }
         }
 
-        btnOpenCam.addEventListener('click', startCamera);
-
-        // Menangani keyboard shortcut
-        // document.addEventListener('keydown', function(e) {
-        //     if (e.code === 'Space' /*&& !captureBtn.disabled*/) {
-        //         e.preventDefault();
-        //         capturePhoto();
-        //     }
-        // });
-
-        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-            console.long('Browser Anda tidak mendukung akses kamera')
+        if(btnOpenCam) {
+            btnOpenCam.addEventListener('click', () => startCamera(1));
         }
 
-        /*
-        *   keterangan if luar area
-        */
-        function checkPilihKeterangan()
-        {
+        function checkPilihKeterangan() {
             keterangan = $('input[name=keterangan]:checked').val()
-            if(keterangan=='Lainnya')
-            {
+            if(keterangan=='Lainnya') {
                 $('#keterangan2').show().prop('required', true)
             }else{
                 $('#keterangan2').hide().prop('required', false).val('')
             }
         }
 
-        $('input[name=keterangan]').on('change', function(){
-            checkPilihKeterangan();
-        })
+        $('input[name=keterangan]').on('change', checkPilihKeterangan)
 
-        function file_upload_form_capture_whit_query(fieldSelect, firstName, urlQuery='', callback)
-        {
+        function file_upload_form_capture_whit_query(fileBlob, firstName, urlQuery='', callback) {
             var formData = new FormData();
             formData.append('first', firstName);
             formData.append('output', 'json');
-            formData.append('userfile', fieldSelect);
+            formData.append('userfile', fileBlob);
             formData.append('<?=csrf_token()?>', '<?=csrf_hash()?>');
+            
             $.ajax({
-                crossDomain: true,
-                crossOrigin: true,
                 type:'POST',
                 data: formData,
                 cache:false,
                 processData: false,
                 contentType: false,
                 url: '<?=site_url('api/file/upload')?>'+urlQuery,
-                success:function(data){;
-                    var rt = data
-                    $('input[name=<?=csrf_token()?>]').val(rt.csrf);
-                    if(rt.status){
-                        $(fieldSelect).val('')
-                    }else{
-                        alert(rt.message);
-                    }
-                    callback(rt)
+                success:function(data){
+                    callback(data)
                 }
             });
-        }
-
-        function base64ToBinary(base64String) {
-            try {
-                // Hapus prefix data URL jika ada
-                const base64Data = base64String.replace(/^data:[^;]+;base64,/, '');
-                // Decode base64 ke binary string
-                const binaryString = atob(base64Data);
-                // Convert ke Uint8Array
-                const bytes = new Uint8Array(binaryString.length);
-                for (let i = 0; i < binaryString.length; i++) {
-                    bytes[i] = binaryString.charCodeAt(i);
-                }
-                return bytes;
-            } catch (error) {
-                throw new Error('Invalid base64 string: ' + error.message);
-            }
         }
 
         function dataURLToBlob(dataURL) {
@@ -835,6 +1063,6 @@
             }
             return new Blob([u8arr], {type: mime});
         }
-	</script>
+    </script>
 </body>
 </html>

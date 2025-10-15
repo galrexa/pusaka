@@ -15,6 +15,8 @@
     <!-- NAVBAR HEADER -->
     <?=view('tBaseHeader')?>
 
+    <?=view('tBaseAlert')?>
+
     <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
         <!-- <div class="text-center pl-2 pr-2">
@@ -75,12 +77,12 @@
 
     <!-- Main Content -->
     <div class="main-content" id="mainContent">
-        <?php if(session()->get('message')){?>
-            <!-- ALERT FLASHDATA -->
+       <!-- <?php if(session()->get('message')){?>
+            // ALERT FLASHDATA
             <div class="alert alert-info" id="flashdata_message">
                 <i class="fa fa-exclamation-circle"></i> <?=session()->get('message')?>
             </div>
-        <?php }?>
+        <?php }?> -->
         <?php 
             // LOAD VIEW PAGE
             if(isset($page) && file_exists(APPPATH.'Views/'.$page.'.php'))

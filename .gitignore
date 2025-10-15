@@ -1,2 +1,20 @@
+/writable/cache/*
+/writable/logs/*
+/writable/session/*
+/writable/uploads/*
+!/writable/cache/index.html
+!/writable/logs/index.html
+!/writable/session/index.html
+!/writable/uploads/index.html
+
 .env
-/vendor
+/vendor/
+/phpunit*.xml
+/.phpunit.cache
+*.bak
+
+#-------------------------
+# OS Files
+#-------------------------
+.DS_Store
+Thumbs.db

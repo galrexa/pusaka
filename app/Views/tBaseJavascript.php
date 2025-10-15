@@ -1,14 +1,10 @@
 <script type="text/javascript">
+	// Flashdata auto hide (jika masih mau pakai alert default)
 	// $(function(){
-		// $('[data-bs-toggle="tooltip"]').tooltip()
-		// const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-		// const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+	// 	$("#flashdata_message").fadeTo(5000, 500).slideUp(500, function(){
+	// 		$("#flashdata_message").slideUp(500);
+	// 	});
 	// })
-	$(function(){
-		$("#flashdata_message").fadeTo(5000, 500).slideUp(500, function(){
-			$("#flashdata_message").slideUp(500);
-		});
-	})
 
 	<?php #if(return_access_link(['kepegawaian/download/foto'])){?>
 		function download_foto(status, page='')
@@ -284,50 +280,20 @@
 	
 	function log_out()
 	{
-		var cf = confirm('Keluar aplikasi?')
-		if(cf==true)
-		{
+		showConfirm('Apakah Anda yakin ingin keluar dari aplikasi?', function() {
+			showLoading('Logging out...');
 			$.get('<?=site_url('auth/logout')?>', function(rs){
+				hideLoading();
 				if(rs.status==true)
 				{
-					window.location.assign('<?=base_url()?>')
+					window.location.assign('<?=base_url()?>');
 				}else{
-					alert(rs.message)
+					showError(rs.message);
 				}
-			})
-		}
+			});
+		}, null, 'Keluar Aplikasi');
 	}
 
-
-	// function file_upload_form_capture_whit_query(fieldSelect, firstName, urlQuery='')
-	// {
-	// 	var formData = new FormData();
-	// 	formData.append('first', firstName);
-	// 	formData.append('output', 'json');
-	// 	formData.append('userfile', fieldSelect);
-	// 	formData.append('<?=csrf_token()?>', '<?=csrf_hash()?>');
-	// 	// $(fieldSelect).html('<i class="fas fa-spinner fa-spin me-2"></i>Memproses...')
-	// 	$.ajax({
-	// 		crossDomain: true,
-	//         crossOrigin: true,
-	// 		type:'POST',
-	// 		data: formData,
-	// 		cache:false,
-	// 	    processData: false,
-	// 	    contentType: false,
-	// 		url: '<?=site_url('api/file/upload')?>'+urlQuery,
-	// 		success:function(data){;
-	// 			var rt = data
-	// 			$('input[name=<?=csrf_token()?>]').val(rt.csrf);
-	// 			if(rt.status){
-	// 				$(fieldSelect).val('')
-	// 			}else{
-	// 				alert(rt.message);
-	// 			}
-	// 			return rt
-	// 		}
-	// 	});
-	// }
 
 	function file_upload_form_whit_query(fieldSelect, firstName, urlQuery='')
 	{
@@ -336,7 +302,9 @@
 		formData.append('output', 'json');
 		formData.append('userfile', $(fieldSelect)[0].files[0]);
 		formData.append('<?=csrf_token()?>', '<?=csrf_hash()?>');
-		// $(fieldSelect).html('<i class="fas fa-spinner fa-spin me-2"></i>Memproses...')
+		
+		showLoading('Mengupload file...');
+		
 		$.ajax({
 			crossDomain: true,
 	        crossOrigin: true,
@@ -346,15 +314,21 @@
 		    processData: false,
 		    contentType: false,
 			url: '<?=site_url('api/file/upload')?>'+urlQuery,
-			success:function(data){;
+			success:function(data){
+				hideLoading();
 				var rt = data
 				$('input[name=<?=csrf_token()?>]').val(rt.csrf);
 				if(rt.status){
-					$(fieldSelect).val('')
+					$(fieldSelect).val('');
+					showToast('File berhasil diupload', 'success');
 				}else{
-					alert(rt.message);
+					showError(rt.message);
 				}
 				return rt
+			},
+			error: function(xhr, status, error) {
+				hideLoading();
+				showError('Terjadi kesalahan saat upload file');
 			}
 		});
 	}
@@ -366,10 +340,9 @@
 		formData.append('output', 'json');
 		formData.append('userfile', $(fieldSelect)[0].files[0]);
 		formData.append('<?=csrf_token()?>', '<?=csrf_hash()?>');
-		// if(jml=='1')
-		// {
-		// 	formData.append('allowed_type', 'docx|pdf|DOCX|PDF')
-		// }
+		
+		showLoading('Mengupload file...');
+		
 		$.ajax({
 			crossDomain: true,
 	        crossOrigin: true,
@@ -379,9 +352,9 @@
 		    processData: false,
 		    contentType: false,
 			url: '<?=site_url('api/file/upload')?>',
-			success:function(data){;
+			success:function(data){
+				hideLoading();
 				var rt = data
-				// console.log('HASILNYA::', rt)
 				$('input[name=<?=csrf_token()?>]').val(rt.csrf);
 				if(rt.status){
 					console.log('Berhasil upload file: ',rt.data['client_name'], 'Component:',fieldSelect);
@@ -402,53 +375,54 @@
 					}
 					txtViewListFile += '<li id="li-file-'+rt.data.id_hash+'"><a href="<?=site_url('file/download?id=')?>'+rt.data.id_hash+'" target="_blank" title="Unduh File" class="me-1">'+rt.data.client_name+'</a> <a href="#" title="Hapus File" onclick="file_deleted(\''+rt.data.id_hash+'\', \''+fieldTarget+'\', \''+jml+'\')"><i class="fa fa-trash"></i></a></li> '
 					$(fileList).html(txtViewListFile);
-					// $('#progress-bar_').prop('style', 'width:100%').html('100%').prop('class', 'progress-bar bg-success')
-					$(fieldSelect).val('')
+					$(fieldSelect).val('');
+					showToast('File berhasil diupload', 'success');
 				}else{
-					// $('#text_message').html(rt.error)
-					// $('#progress-bar_').prop('style', 'width:50%').html('50%').prop('class', 'progress-bar bg-danger')
-					alert(rt.message);
+					showError(rt.message);
 				}
-				// $('#modal_for_message_result').modal('hide')
 				return rt
 			},
-			// error: function(data){
-			// 	// $('#text_message').html(data)
-			// 	// $('#progress-bar_').prop('style', 'width:50%').html('50%').prop('class', 'progress-bar bg-danger')
-			// 	// $('#modal_for_message_result').modal('hide')
-			// 	alert(data);
-			// }
+			error: function(xhr, status, error) {
+				hideLoading();
+				showError('Terjadi kesalahan saat upload file');
+			}
 		});
 	}
 
 	function file_deleted(id, fieldTarget, jml='1', silent=0){
-		var cf = true
 		if (silent==0){
-			confirm('Hapus File ini?...')
+			showConfirm('Apakah Anda yakin ingin menghapus file ini?', function() {
+				executeFileDelete(id, fieldTarget, jml);
+			}, null, 'Hapus File');
+		} else {
+			executeFileDelete(id, fieldTarget, jml);
 		}
-		if(cf===true)
-		{
-			$.get('<?=site_url('file/deleted')?>', {id:id}, function(data){
-				if(data.status){
-					$('#li-file-'+id).remove()
-					var iddx = crypto_test(id, 'decode', function(result){
-						var idd = result
-						if(jml=='1'){
-							var isinya = $(fieldTarget).val()
-							if(isinya==idd){
-								$(fieldTarget).val('')
-							}
-						}else{
-							var y = $(fieldTarget).val().split(',')
-							y = y.filter(e => e !== idd);
-							$(fieldTarget).val(y.join(','));
+	}
+	
+	function executeFileDelete(id, fieldTarget, jml) {
+		showLoading('Menghapus file...');
+		$.get('<?=site_url('file/deleted')?>', {id:id}, function(data){
+			hideLoading();
+			if(data.status){
+				$('#li-file-'+id).remove();
+				var iddx = crypto_test(id, 'decode', function(result){
+					var idd = result
+					if(jml=='1'){
+						var isinya = $(fieldTarget).val()
+						if(isinya==idd){
+							$(fieldTarget).val('')
 						}
-					})
-				}else{
-					alert(data.message)
-				}
-			})
-		}
+					}else{
+						var y = $(fieldTarget).val().split(',')
+						y = y.filter(e => e !== idd);
+						$(fieldTarget).val(y.join(','));
+					}
+				});
+				showToast('File berhasil dihapus', 'success');
+			}else{
+				showError(data.message);
+			}
+		});
 	}
 
 	function crypto_test(id, opt='encode', callback)
@@ -474,7 +448,6 @@
 	      licenseKey: license,
 	  },document.getElementById(elementID))
 	  .then(instance => {
-	      // instance.UI.loadDocument(pdf, { filename: pdf_source_path });
 	      instance.UI.loadDocument(base64ToBlob(pdf), { filename: pdf_source });
 	      const { documentViewer } = instance.Core;
 	      var FitMode = instance.UI.FitMode;
