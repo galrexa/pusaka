@@ -23,6 +23,7 @@
 
     <!-- NAVBAR HEADER -->
     <?=view('tBaseHeader')?>
+    <?=view('tBaseAlert')?>
 
     <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
